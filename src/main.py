@@ -1,9 +1,13 @@
 from model import OpenWeatherClient
 from view import display_weather, parse_weather
 from controller import choose_location, get_city_name_and_coordinates
-from config import API_KEY, RESULTS_LIMIT
+from dotenv import load_dotenv
+from pathlib import Path
+import os
 
-
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+RESULTS_LIMIT = os.getenv("RESULTS_LIMIT")
 
 
 def main():
