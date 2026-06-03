@@ -14,6 +14,18 @@ class Weather:
     city: str
 
 
+@dataclass
+class DailyForecast:
+    date: int
+    temp_min: float
+    temp_max: float
+    humidity: int
+    description: str
+    wind: float
+    pop: float
+    rain: float
+
+
 class OpenWeatherClient:
     """
     Client API OpenWeatherMap.
@@ -30,7 +42,6 @@ class OpenWeatherClient:
     # -------------------------
     def _get(self, endpoint: str, params: dict[str, Any]) -> dict[str, Any]:
         url = self.base_url + endpoint
-
         response = requests.get(url, params=params)
         response.raise_for_status()
         return response.json()
@@ -42,16 +53,26 @@ class OpenWeatherClient:
         params = {
             "q": city,
             "limit": self.results_limit,
-            "appid": self.api_key
+            "appid": self.api_key,
         }
-
         return self._get("geo/1.0/direct", params)
 
     def get_weather(self, lat: float, lon: float) -> dict[str, Any]:
         params = {
             "lat": lat,
             "lon": lon,
-            "appid": self.api_key
+            "units": "metric",
+            "appid": self.api_key,
         }
-
         return self._get("data/2.5/weather", params)
+
+    def get_forecast(self, lat: float, lon: float) -> dict[str, Any]:
+        params = {
+            "lat": lat,
+            "lon": lon,
+            "cnt": 40,  # 5 jours × 8 créneaux de 3h
+            "units": "metric",
+            "lang": "fr",
+            "appid": self.api_key,
+        }
+        return self._get("data/2.5/forecast", params)

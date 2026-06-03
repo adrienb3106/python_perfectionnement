@@ -1,15 +1,12 @@
+from typing import Any
+from view import display_locations
+
 
 def choose_location(locations: list[dict[str, Any]]) -> dict[str, Any] | None:
     """
     Permet à l'utilisateur de choisir une localisation parmi plusieurs résultats.
     """
-    for i, loc in enumerate(locations):
-        name = loc["name"]
-        country = loc["country"]
-        state = loc.get("state", "")
-
-        label = f"{name}, {state} ({country})" if state else f"{name} ({country})"
-        print(f"{i + 1} - {label}")
+    display_locations(locations)
 
     if len(locations) == 1:
         return locations[0]
@@ -26,6 +23,7 @@ def choose_location(locations: list[dict[str, Any]]) -> dict[str, Any] | None:
 
     return locations[choice]
 
+
 def get_city_name_and_coordinates(locations: list[dict[str, Any]]) -> tuple[str, float, float] | None:
     """
     Prend une liste de localisations et retourne la sélection utilisateur.
@@ -39,3 +37,14 @@ def get_city_name_and_coordinates(locations: list[dict[str, Any]]) -> tuple[str,
         return None
 
     return selected["name"], selected["lat"], selected["lon"]
+
+
+def get_mode() -> str | None:
+    """
+    Permet à l'utilisateur de choisir entre la prévision météo ou la météo actuelle.
+    """
+    choice = input("Votre choix : ").strip()
+    if choice not in ("1", "2"):
+        print("Choix invalide")
+        return None
+    return choice
