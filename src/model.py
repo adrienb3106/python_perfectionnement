@@ -20,10 +20,10 @@ class DailyForecast:
     temp_min: float
     temp_max: float
     humidity: int
-    description: str
+    description: str #description météo (soleil, huminde,etc)
     wind: float
-    pop: float
-    rain: float
+    pop: float #risque de pluie
+    rain: float #mm de pluie
 
 
 class OpenWeatherClient:

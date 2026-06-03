@@ -31,14 +31,17 @@ def display_weather(weather: Weather) -> None:
 
 def display_forecast(forecasts: list[DailyForecast]) -> None:
     print("📅 Prévisions sur 5 jours")
-    print("=" * 50)
+    print("=" * 60)
     for day in forecasts:
         label = datetime.fromtimestamp(day.date, tz=timezone.utc).strftime("%A %d %b")
-        rain_str = f"🌧️  {day.rain:.1f} mm" if day.rain > 0 else ""
+        rain_str = f"  🌧️  {day.rain:.1f} mm" if day.rain > 0 else ""
+        humidity_str = f"  💧{day.humidity}%"
+        pop_str = f"  ☔{day.pop * 100:.0f}%"
         print(
-            f"{label:<18} {day.temp_min:.0f}°↓ {day.temp_max:.0f}°↑"
-            f"  💧{day.humidity}%"
-            f"  ☔{day.pop * 100:.0f}%"
-            f"  {rain_str}"
+            f"{label:<18} {day.temp_min:>3.0f}°↓ {day.temp_max:>3.0f}°↑"
+            f"{humidity_str:<9}"
+            f"{pop_str:<8}"
+            f"  {day.description.capitalize()}"
+            f"{rain_str}"
         )
-    print("=" * 50 + "\n")
+    print("=" * 60 + "\n")
